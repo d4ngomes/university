@@ -1,4 +1,4 @@
-# University 
+# University Sample Application
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/d4ngomes/university/blob/master/LICENSE) 
 
 # About
