@@ -28,6 +28,7 @@ namespace University
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddScoped<SeedingService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingService seedingService)

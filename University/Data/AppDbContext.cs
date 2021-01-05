@@ -16,6 +16,6 @@ namespace University.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
+        public DbSet<Person> People { get; set; }
     }
 }

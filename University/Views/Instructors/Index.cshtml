@@ -24,6 +24,7 @@
             <th>
                 Office
             </th>
+            <th>Courses</th>
             <th></th>
         </tr>
     </thead>
@@ -31,7 +32,7 @@
         @foreach (var item in Model.Instructors)
         {
             string selectedRow = "";
-            if (item.InstructorID == ViewBag.InstructorID)
+            if (item.ID == ViewBag.InstructorID)
             {
                 selectedRow = "selectedrow";
             }
@@ -46,16 +47,24 @@
                     @Html.DisplayFor(modelItem => item.HireDate)
                 </td>
                 <td>
-                    @if (item.OfficeAssignment != null)
+                    @if (item.Location != null)
                     {
-                        @item.OfficeAssignment.Location
+                        @item.Location
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("Select", "Index", new { id = item.InstructorID }) |
-                    <a asp-action="Edit" asp-route-id="@item.InstructorID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.InstructorID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.InstructorID">Delete</a>
+                    @{
+                        foreach (var course in item.Courses)
+                        {
+                            @course.CourseID @:  @course.Title <br />
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Select", "Index", new { id = item.ID }) |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>
         }

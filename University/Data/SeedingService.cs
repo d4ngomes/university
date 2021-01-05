@@ -44,13 +44,13 @@ namespace University.Data
             var instructors = new List<Instructor>
             {
                 new Instructor { FirstName = "Kim",     LastName = "Abercrombie",
-                    HireDate = DateTime.Parse("1995-03-11") },
+                    HireDate = DateTime.Parse("1995-03-11"), Location = "Smith 17" },
                 new Instructor { FirstName = "Fadi",    LastName = "Fakhouri",
                     HireDate = DateTime.Parse("2002-07-06") },
                 new Instructor { FirstName = "Roger",   LastName = "Harui",
-                    HireDate = DateTime.Parse("1998-07-01") },
+                    HireDate = DateTime.Parse("1998-07-01"), Location = "Gowan 27" },
                 new Instructor { FirstName = "Candace", LastName = "Kapoor",
-                    HireDate = DateTime.Parse("2001-01-15") },
+                    HireDate = DateTime.Parse("2001-01-15"), Location = "Thompson 304" },
                 new Instructor { FirstName = "Roger",   LastName = "Zheng",
                     HireDate = DateTime.Parse("2004-02-12") }
             };
@@ -62,16 +62,16 @@ namespace University.Data
             {
                 new Department { Name = "English",     Budget = 350000,
                     StartDate = DateTime.Parse("2007-09-01"),
-                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Abercrombie").InstructorID },
+                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Abercrombie").ID },
                 new Department { Name = "Mathematics", Budget = 100000,
                     StartDate = DateTime.Parse("2007-09-01"),
-                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Fakhouri").InstructorID },
+                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Fakhouri").ID },
                 new Department { Name = "Engineering", Budget = 350000,
                     StartDate = DateTime.Parse("2007-09-01"),
-                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Harui").InstructorID },
+                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Harui").ID },
                 new Department { Name = "Economics",   Budget = 100000,
                     StartDate = DateTime.Parse("2007-09-01"),
-                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Kapoor").InstructorID }
+                    InstructorID  = _db.Instructors.FirstOrDefault( i => i.LastName == "Kapoor").ID }
             };
 
             departments.ForEach(m => _db.Departments.Add(m));
@@ -112,75 +112,59 @@ namespace University.Data
             courses.ForEach(m => _db.Courses.Add(m));
             _db.SaveChanges();
 
-            var officeAssignments = new List<OfficeAssignment>
-            {
-                new OfficeAssignment {
-                    InstructorID = _db.Instructors.FirstOrDefault( i => i.LastName == "Fakhouri").InstructorID,
-                    Location = "Smith 17" },
-                new OfficeAssignment {
-                    InstructorID = _db.Instructors.FirstOrDefault( i => i.LastName == "Harui").InstructorID,
-                    Location = "Gowan 27" },
-                new OfficeAssignment {
-                    InstructorID = _db.Instructors.FirstOrDefault( i => i.LastName == "Kapoor").InstructorID,
-                    Location = "Thompson 304" },
-            };
-
-            officeAssignments.ForEach(m => _db.OfficeAssignments.Add(m));
-            _db.SaveChanges();
-
             var enrollments = new List<Enrollment>
             {
                 new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Chemistry" ).CourseID,
                     Grade = Grade.A
                 },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Microeconomics" ).CourseID,
                     Grade = Grade.C
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alexander").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Macroeconomics" ).CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                     StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").StudentID,
+                     StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Calculus" ).CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                     StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").StudentID,
+                     StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Trigonometry" ).CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Alonso").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Composition" ).CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Anand").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Anand").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Chemistry" ).CourseID
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Anand").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Anand").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Microeconomics").CourseID,
                     Grade = Grade.B
                  },
                 new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Barzdukas").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Barzdukas").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Chemistry").CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Li").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Li").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Composition").CourseID,
                     Grade = Grade.B
                  },
                  new Enrollment {
-                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Justice").StudentID,
+                    StudentID = _db.Students.FirstOrDefault(s => s.LastName == "Justice").ID,
                     CourseID = courses.FirstOrDefault(c => c.Title == "Literature").CourseID,
                     Grade = Grade.B
                  }

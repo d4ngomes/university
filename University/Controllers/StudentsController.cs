@@ -14,11 +14,11 @@ namespace University.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly AppDbContext _context;
+        private IGenericRepository<Student> _studentRepository;
 
-        public StudentsController(AppDbContext context)
+        public StudentsController(IGenericRepository<Student> studentRepository)
         {
-            _context = context;
+            _studentRepository = studentRepository;
         }
 
         public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -37,7 +37,7 @@ namespace University.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            var students = from s in _context.Students
+            var students = from s in _studentRepository.GetAll()
                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -64,20 +64,9 @@ namespace University.Controllers
             return View(students.ToPagedList(pageNumber, pageSize));
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentID == id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
+            var student = _studentRepository.GetByID(id);
             return View(student);
         }
 
@@ -88,14 +77,14 @@ namespace University.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LastName,FirstName,EnrollmentDate")] Student student)
+        public IActionResult Create(Student student)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(student);
-                    await _context.SaveChangesAsync();
+                    _studentRepository.Insert(student);
+                    _studentRepository.Save();
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -106,83 +95,46 @@ namespace University.Controllers
             return View(student);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
+            var student = _studentRepository.GetByID(id);
             return View(student);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentID,LastName,FirstName,EnrollmentDate")] Student student)
+        public IActionResult Edit(Student student)
         {
-            if (id != student.StudentID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
+                    _studentRepository.Update(student);
+                    _studentRepository.Save();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DataException)
                 {
-                    if (!StudentExists(student.StudentID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentID == id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
+            var student = _studentRepository.GetByID(id);
             return View(student);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+            var student = _studentRepository.GetByID(id);
+            _studentRepository.Delete(id);
+            _studentRepository.Save();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.StudentID == id);
         }
     }
 }
