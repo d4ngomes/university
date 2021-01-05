@@ -1,5 +1,5 @@
 # University 
-[(https://img.shields.io/badge/license-MIT-green)](https://github.com/d4ngomes/university/blob/master/LICENSE) 
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/d4ngomes/university/blob/master/LICENSE) 
 
 # Sobre
 University is a ASP.NET MVC web application for a fictional University using the Entity Framework. It includes functionality such as student admission, course creation, and instructor assignments.
