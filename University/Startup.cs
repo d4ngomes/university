@@ -26,7 +26,7 @@ namespace University
         {
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Default")));
+                options.UseSqlServer(Configuration.GetConnectionString("Host")));
             services.AddScoped<SeedingService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
